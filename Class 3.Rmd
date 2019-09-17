@@ -29,14 +29,14 @@ library(anytime)
 1.2)Set your working directory to the "Sarah_analysis" folder. Try and use setwd("your path here").If setwd() doesn't work, then run the following command: knitr::opts_knit$set(root.dir = "Replace here with correct patch")
 ```{R}
 `''
-knitr::opts_knit$set(root.dir = "Users/sigridnielsen/CogCom/Sarah_analysis/data")
+knitr::opts_knit$set(root.dir = "Users/sigridnielsen/CogCom/Sarah_analysis/")
 
 
 1.3) In the "Sarah_analysis" you will find a script called "CrantoR_function.R". This script contains a function for turning Childes' CHA files into R friendly dataframes. We can connect this script to the function by running the following command.
 (Normally functions are put into packages which we load, unfortunately this function isn't).
 ```{R setup}
 
-source("CRANtoR_function.R") 
+source("CRANtoR_function.R")
 ``` 
 
 
@@ -48,9 +48,15 @@ To get list.files() to do this, write ?list.files in the console and check out h
 ```{R}
 
 ?list.files
-setwd("/Users/sigridnielsen/CogCom/Sarah_analysis/data/")
-sarah_data <- list.files(full.names = TRUE)
+setwd("/Users/sigridnielsen/CogCom/Sarah_analysis/")
+sarah_data <- list.files(full.names = TRUE, all.files = TRUE)
 sarah_data
+sarah_data <- (sarah_data1 + all.variables)
+names(sarah_data1)
+sarah_data_org <- list.files(path="data",full.names=TRUE, all.files=TRUE)
+sarah_now <- list.files(path = "data", full.names = TRUE, all.files = TRUE)
+source("CRANtoR_function.R")
+
 ```
 
 If you have done previous step correctly you should have a 139 item long list of file names starting with "data/" and then some number.
@@ -73,7 +79,7 @@ sarah_data1 <- select(sarah_data, c(Speaker, Gloss, Date))
 
 1.7) Lets save our data so we won't have to rerun the long data import again. To do this you can use "write.csv". Remember to put a ".csv" at the end of the output file so that it will be in csv format.
 ```{R}
-write.csv(sarah_data1,"Sarah_analysis")
+write.csv(sarah_data1,"Sarah_analysis.csv")
 ```
 ###Grøn tekst = navn på fil, filen ligger ved working directory i mappen "data"
 
@@ -82,7 +88,8 @@ write.csv(sarah_data1,"Sarah_analysis")
 
 2.1) Start out by loading the data you saved in last part
 ```{R}
-sarah_data <- read.csv("name of saved file", header = T)
+sarah_data1 <- read_csv("Sarah_analysis/data/Sarah_analysis.csv")
+
 ```
 
 
@@ -99,19 +106,19 @@ class(Speaker)
 Gloss <- as.character(sarah_data1$Gloss)
 class(Gloss)
 
-Date <- anytime:anydate(sarah_data1$Date)
-class(Date)
 ```
 
 2.3) If any of the columns are of the wrong class, then change it with "as.xxx"" where xxx is replaced by name of the desired class.
 If you get an error using "as.Date", try use anytime::anydate() instead.
 ```{R}
+sarah_data1$Date <- anytime::anydate(sarah_data1$Date)
+class(sarah_data1$Date)
 ```
 
 
 2.4) In the data Sarah is conversing with several people but mainly her mother. We are only interested in the child-mother conversations. Make a dataframe where you only keep the rows where the speaker is "MOT" OR "CHI". I would suggest using filter() to do this. You need to pass it a logical statement like (xxx == yy). You say "Or" in R with "|". A logical "Or" statement looks like (xxx == yy | xxx == zz)
 ```{R}
-
+child_mother <- filter(sarah_data, c(Speaker == "MOT" | Speaker == "CHI"))
 ```
 HELP: https://r4ds.had.co.nz/transform.html#dplyr-basics
 
