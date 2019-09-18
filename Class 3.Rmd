@@ -18,6 +18,7 @@ First we will handle the practicalities of importing the right files, keeping th
 
 1.1)Install and load the libraries "tidyverse", "stringi","stringr" and "anytime".
 ```{R}
+library(plyr)
 library("tidyverse")
 library(stringi)
 library(stringr)
@@ -29,7 +30,7 @@ library(anytime)
 1.2)Set your working directory to the "Sarah_analysis" folder. Try and use setwd("your path here").If setwd() doesn't work, then run the following command: knitr::opts_knit$set(root.dir = "Replace here with correct patch")
 ```{R}
 `''
-knitr::opts_knit$set(root.dir = "/Users/sigridnielsen/CogCom/Sarah_analysis/data/")
+knitr::opts_knit$set(root.dir = "/Users/sigridnielsen/CogCom/")
 getwd()
 
 1.3) In the "Sarah_analysis" you will find a script called "CrantoR_function.R". This script contains a function for turning Childes' CHA files into R friendly dataframes. We can connect this script to the function by running the following command.
@@ -48,8 +49,10 @@ To get list.files() to do this, write ?list.files in the console and check out h
 ```{R}
 
 ?list.files
-setwd("/Users/sigridnielsen/CogCom/Sarah_analysis/")
-sarah_data <- list.files(full.names = TRUE, all.files = TRUE)
+setwd("/Users/sigridnielsen/CogCom/")
+sarah_data <- list.files(path = "data", full.names = TRUE, all.files = TRUE)
+
+sarah_data <- sarah_data[-c(1,2)]
 
 ```
 
@@ -59,9 +62,7 @@ If you have done previous step correctly you should have a 139 item long list of
 1.5)Next we will use a handy function from tidyverse map_df, that allow us to call a function on each file name in our list and unite the result into a data-frame. It will take a couple of minutes to load in all the files, and at the end it will mention something about "coercing into character vector..." - don't worry about this.
 Replace quotated parts and run the command:
 ```{R}
-sarah_data_df <- map_df(sarah_work,function(x) read.CLAN.file(x))
-getwd()
-setwd("/Users/sigridnielsen/CogCom/Sarah_analysis/data/")
+sarah_data_df <- map_df(sarah_data,function(x)read.CLAN.file(x))
 ```
 Now go and view the data frame. It should contain 84443 observations of 30 variables.
 
@@ -75,9 +76,9 @@ sarah_data1 <- select(sarah_data, c(Speaker, Gloss, Date))
 
 1.7) Lets save our data so we won't have to rerun the long data import again. To do this you can use "write.csv". Remember to put a ".csv" at the end of the output file so that it will be in csv format.
 ```{R}
-write.csv(sarah_data1,"Sarah_analysis.csv")
+write.csv(sarah_data_df,"Sarah_analysis3.csv")
 ```
-###Grøn tekst = navn på fil, filen ligger ved working directory i mappen "data"
+###Grøn tekst = navn på fil, filen ligger ved working directory i mappen "cogcom"
 
 -----PART 2: Data cleaning and MLU analysis------
 
@@ -101,7 +102,7 @@ class(Speaker)
 
 Gloss <- as.character(sarah_data1$Gloss)
 class(Gloss)
-
+anytime::anydate(sarah_data1$Date)
 ```
 
 2.3) If any of the columns are of the wrong class, then change it with "as.xxx"" where xxx is replaced by name of the desired class.
