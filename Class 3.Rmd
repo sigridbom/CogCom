@@ -102,7 +102,9 @@ class(Speaker)
 
 Gloss <- as.character(sarah_data1$Gloss)
 class(Gloss)
-anytime::anydate(sarah_data1$Date)
+
+Date <- anytime::anydate(sarah_data1$Date)
+class(Date)
 ```
 
 2.3) If any of the columns are of the wrong class, then change it with "as.xxx"" where xxx is replaced by name of the desired class.
@@ -115,7 +117,8 @@ class(sarah_data1$Date)
 
 2.4) In the data Sarah is conversing with several people but mainly her mother. We are only interested in the child-mother conversations. Make a dataframe where you only keep the rows where the speaker is "MOT" OR "CHI". I would suggest using filter() to do this. You need to pass it a logical statement like (xxx == yy). You say "Or" in R with "|". A logical "Or" statement looks like (xxx == yy | xxx == zz)
 ```{R}
-child_mother <- filter(sarah_data, c(Speaker == "MOT" | Speaker == "CHI"))
+child_mother <- filter(sarah_data_df, c(Speaker == "MOT" | Speaker == "CHI"))
+view(child_mother)
 ```
 HELP: https://r4ds.had.co.nz/transform.html#dplyr-basics
 
@@ -130,7 +133,7 @@ To find any special character you need two things. First you need the regular ex
 3.1) Make a new column in your dataset by using str_replace_all and regular expressions to remove all special characters:
 
 ```{R}
-
+str_replace_all()
 ```
 TIP: https://stringr.tidyverse.org/articles/regular-expressions.html
 
