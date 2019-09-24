@@ -14,7 +14,7 @@ In this script we will make visualization of our newly formed mlu data.
 1.1)Install and load the libraries "tidyverse" (it includes ggplot, which we will use)
 ```{r}
 library(pacman)
-p_load(tidyverse, anytime)
+pacman::p_load(tidyverse, anytime)
 library(ggplot2)
 
 ```
@@ -57,6 +57,8 @@ class(mlu_data$word_sum)
 class(mlu_data$utterances)
 class(mlu_data$mlu)
 
+Date <- anytime::anydate(mlu_data$Date)
+
 ```
 
 
@@ -77,11 +79,12 @@ b. make a scatter-plot by adding the argument geom_point. (see here: http://r-st
 
 ```{r}
 
-graph_1 <- ggplot(mlu_data_2, aes (x = Date, y = mlu, color = Speaker)) + geom_point() + geom_smooth(method = "lm")
+mlu_data$Date <- anydate(Date,c(YYYY-MM-DD))
 
-mlu_data_2 <- group_by(mlu_data, Speaker, Date)
+graph_1 <- ggplot(mlu_data, aes (x = Date, y = mlu, color = Speaker)) + geom_point() + geom_smooth(method = "lm")
 
 graph_1
+
 
 ```
 
