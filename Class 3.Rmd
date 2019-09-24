@@ -18,7 +18,7 @@ First we will handle the practicalities of importing the right files, keeping th
 
 1.1)Install and load the libraries "tidyverse", "stringi","stringr" and "anytime".
 ```{R}
-library(plyr)
+#library(plyr)
 library("tidyverse")
 library(stringi)
 library(stringr)
@@ -70,7 +70,7 @@ Now go and view the data frame. It should contain 84443 observations of 30 varia
 1.6) To make things clearer lets throw away the variables we won't need. Use the function "select" or another subsetting command to create a new data frame which only contains the columns "Speaker", "Gloss", and "Date".
 ```{R}
 
-df2 <- select(sarah_data_df, Speaker, Gloss, Date)
+df2 <- select(sarah_data, Speaker, Gloss, Date)
 
 ```
 
@@ -87,7 +87,7 @@ write.csv(sarah_data_df,"Sarah_analysis3.csv")
 
 2.1) Start out by loading the data you saved in last part
 ```{R}
-sarah_data <- read_csv("Sarah_analysis/data/Sarah_analysis3.csv")
+sarah_data <- read_csv("Sarah_analysis3.csv")
 
 ```
 
@@ -99,13 +99,13 @@ You want "Speaker" to be "factor".
 You want "Gloss" to be "character".
 And you want "Date" to be "date".
 ```{R}
-Speaker <- as.factor(sarah_data1$Speaker)
+Speaker <- as.factor(sarah_data$Speaker)
 class(Speaker)
 
-Gloss <- as.character(sarah_data1$Gloss)
+Gloss <- as.character(sarah_data$Gloss)
 class(Gloss)
 
-Date <- anytime::anydate(sarah_data1$Date)
+Date <- anytime::anydate(sarah_data$Date)
 class(Date)
 ```
 
@@ -119,7 +119,7 @@ class(sarah_data1$Date)
 
 2.4) In the data Sarah is conversing with several people but mainly her mother. We are only interested in the child-mother conversations. Make a dataframe where you only keep the rows where the speaker is "MOT" OR "CHI". I would suggest using filter() to do this. You need to pass it a logical statement like (xxx == yy). You say "Or" in R with "|". A logical "Or" statement looks like (xxx == yy | xxx == zz)
 ```{R}
-child_mother_df <- filter(sarah_data_df, c(Speaker == "MOT" | Speaker == "CHI"))
+child_mother_df <- filter(sarah_data, c(Speaker == "MOT" | Speaker == "CHI"))
 view(child_mother)
 
 df2 <- filter(df2, c(Speaker == "MOT" | Speaker == "CHI"))
@@ -138,7 +138,7 @@ To find any special character you need two things. First you need the regular ex
 
 ```{R}
 
-sarah_data$clean <- str_replace_all(sarah_data_df$Gloss,"[:punct:]","")
+sarah_data$clean <- str_replace_all(sarah_data$Gloss,"[:punct:]","")
 
 df2$clean <- str_replace_all(df2$Gloss,"[:punct:]","")
 
@@ -161,16 +161,8 @@ Each cell in the cleaned text column corresponds to an utterance. So for each da
 
 library(stringi)
 
-child_mother_df$num_words <- stri_count_words(child_mother_df$Gloss)
+df2$num_words <- stri_count_words(df2$Gloss)
 
-MLU <- child_mother_df$num_words/child_mother_df$num_utt
-mean(MLU)
-
-#3,433943 words on average
-
-df2$num_words <- stri_count_words(df2$clean)
-MLU2 <- df2$num_words/df2$num_utt
-#Why did we have to make a new data frame with only sum columns when we need the num_utt column? 
 ```
 
 
@@ -181,7 +173,7 @@ By using group_by(Speaker) on our dataframe the computer will know that further 
 3.3)Use group_by to create a new data frame. You should give three arguments to group_by: your dataframe, Speaker and Date.
 ```{R}
 
-df3 <- group_by(df2, df2$Speaker, df2$Date)
+df3 <- group_by(df2, Speaker, Date)
 
 ```
 Group_by doesn't change anything about the data, its effect is first visible when we apply further functions (if we wanted to apply functions to the full data frame again grouping can be removed with ungroup())
@@ -200,16 +192,16 @@ I have already given you the structure of how summarise can used to create a new
 hint. each row corresponds to a single utterance. Roughly speaking, the function n() calculates the number of rows that went into the calculation, so you can use n() to calculate the number of utterances (the function doesn't take any arguments)
 ```{R}
 
-mlu_df <- summarise("grouped_dataframe", word_sum = "function"("variable"),
-                                         utterances = "function"("variable"),
-                                         mlu =  "sum of words"/ "number of utterances")
+mlu_df <- summarise(df3, word_sum = sum(num_words), utterances = n(), mlu =  word_sum/utterances)
 
+mlu_df2 <- na.omit(mlu_df)
 
 ```  
 4.5) View the data frame, click on "Date" to sort by it and see if child and mother each have a MLU value for each date
 
 4.6) Lastly, remember to save the data
 ```{R}
+write.csv(mlu_df2,"Sarah_data_done.csv")
 
 ```
 
