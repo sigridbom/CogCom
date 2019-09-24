@@ -1,0 +1,110 @@
+---
+title: "MLU visualization"
+author: "Your name"
+date: "29/8/2017"
+---
+  
+In this script we will make visualization of our newly formed mlu data.
+
+
+--------Part 1: Setup --------
+  
+
+
+1.1)Install and load the libraries "tidyverse" (it includes ggplot, which we will use)
+```{r}
+library(pacman)
+p_load(tidyverse, anytime)
+library(ggplot2)
+
+```
+# p_load checks to see if a package is installed, and installs it if not, otherwise it does the same as library()
+
+1.2)Set your working directory to the folder where you have saved the mlu data to. Try and use setwd("your path here").If setwd() doesn't work, then run the following command: knitr::opts_knit$set(root.dir = "Replace here with correct patch")
+```{r setup}
+getwd()
+knitr::opts_knit$set(root.dir = "/Users/sigridnielsen/CogCom")
+
+setwd("path")
+
+
+```
+
+
+Now we need to read in the mlu data.
+
+```{r}
+getwd()
+
+mlu_data <- read.csv("Sarah_data_done.csv")
+mlu_data <- mlu_data[,-1] # remove the first column if needed
+
+
+```
+write.csv(mlu_df, file = "mlu_clean2.csv", row.names = F)
+
+Before we can plot, we need to check that the columns are in the right class. As last time, you can do this with str(). Pay attention to date :))
+- Speaker as factor
+- Date as date
+- word_sum as integer
+- utterances as integer
+- mlu as numeric
+```{r}
+
+class(Speaker)
+class(Date)
+class(mlu_data$word_sum)
+class(mlu_data$utterances)
+class(mlu_data$mlu)
+
+```
+
+
+
+Since we have the data in long-format i.e. mother and child data in the same column, then it's easy to plot both in the same graph!
+  
+First we'll make a scatter-plot of using ggplot. 
+
+a. Create the plot object with the ggplot() function. ( Check ?ggplot() if needed )
+
+The most important arguments are the data, i.e. your data frame, and the aes() arguments. So in aes, you need to specify what to plot on the x and y axis. 
+  - e.g. aes(x= myvariable1, y = myvariable2)
+
+We want "mlu" on y-axis and "Date" on x-axis. 
+
+b. make a scatter-plot by adding the argument geom_point. (see here: http://r-statistics.co/Complete-Ggplot2-Tutorial-Part1-With-R-Code.html)
+
+
+```{r}
+
+graph_1 <- ggplot(mlu_data_2, aes (x = Date, y = mlu, color = Speaker)) + geom_point() + geom_smooth(method = "lm")
+
+mlu_data_2 <- group_by(mlu_data, Speaker, Date)
+
+graph_1
+
+```
+
+
+This plot is not very informative. Mainly because it's a mix of the data from the mother and child. The easiest way to discern the two is by giving different colors to the data depending on which speaker it comes from (here is where the long format is handy!).
+Copy the code from the plot above. Inside the aes() function you can set the color equal to "Speaker".
+
+```{r}
+
+
+
+```
+
+BONUS QUESTION:
+  To help our analysis even more, it can be helpful to add a line that sums up the patterns of the dots. In fancies words, let's add a stastical model. You can do this, by adding another "geom" to the previous plot. So copy it, and add geom_smooth(). 
+  
+EXTRA-BONUS:
+How would you make this model linear?
+
+```{r}
+
+
+```
+
+
+
