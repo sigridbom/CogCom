@@ -1,0 +1,129 @@
+---
+title: "Danish_PINK_exercise"
+author: "Kristian Tylén and Telma Peura"
+date: "1 nov 2018"
+output: word_document
+---
+
+As always, we will begin by loading relevant packages, setting the working directory, and loading our files:
+
+```{r setup, include=FALSE}
+
+#Set working directory here if needed:
+setwd()
+getwd()
+#opts_knit$set(root.dir = "~/your_wd") # if root directory has to be changed
+
+#Load packages here:
+library(pacman)
+pacman::p_load(tidyverse) # add necessary packages
+
+#Load your data here
+owndata <- read.csv("logfile_colourtest_PernilleKJ.csv")
+data <- read.csv("df_2018.csv") 
+```
+
+In the first part, you will investigate only your own data. In the second part, you get to compare the linguistic effect between Danish and other language speakers.
+
+# 1. Inspecting your own data
+
+Now, go and inspect the data. What are the relevant columns?
+
+Explanation of columns: color distance is a measure of how different the two shades of color are. So low distance means that the task is more difficult. Category codes whether the difference in shades of color crosses the "suspected danish boundary" of red and pink. 
+
+As we are primarily interested in the difference in judgements made within and across categories, we are only interested in the correct judgements of color. Because of this you should remove all the wrong answers(accuracy = 0).
+
+```{r}
+#remove wrong answers here
+df2 <-owndata %>% 
+  filter(owndata$accuracy == 1)
+```
+
+Check that your data is in the right format! the str() function allows you to quickly assess this. You want reaction time and colour distance to be numeric. What should category be?
+
+```{r}
+# check str()
+str(df2$rt)
+str(df2$colour_distance)
+#both numeric
+# change rt and colour_distance to integer, if necessary
+```
+
+## Correlations
+The first question we can ask is if there is a correlation between difficulty (color_distance) and reaction time. 
+
+Make a scatterplot and a cor.test() of these variables and interpret the result. (Let's not worry about assumptions for now - use Kendall's tau). Looking at the plot, you should be able to eye-ball potential outliers. If they occur, take counter-measures. Interpret your results!
+
+```{r}
+#Insert scatterplot here:
+scat1 <- ggplot(df2, aes(df2$colour_distance, df2$rt))
+scat1 + geom_point()
+scat1
+#Remove outliers (if any) here:
+#removing outliers by z-scores
+
+#RT_z <-(RT-meanRT())/(sd(RT))
+
+rt_z <- (df2$rt-mean(df2$rt))/sd(df2$rt)
+rt_z2 <- rt_z[rt_z >= 3]
+
+#insert Correlations test here:
+
+
+```
+
+# T-test
+
+Next compare the mean of the within and across categories using a t-test. Discuss what your hypothesis is with your neighbor. Make a bar plot illustrating the difference as well (we'll just assume that everything is normally distributed, but feel free to check).  Interpret your results.
+
+Tip: you can do two subsets by filtering your data, based on the categories "within" and "across". (i.e. your_subset <- filter(data, your_column == "subset_value")) Then you can run the t-test with those subsets.
+```{r}
+# subset
+
+# t-test here: 
+
+
+# barplot for RT~category
+
+  # You can use geom_bar(stat = "summary", y.fun = mean). What does this do with your data?
+
+```
+
+By now, you have investigated the relationship between color distance and reaction time and the difference of the mean rt in the two categories. Can you visualize all of this in one scatterplot?
+(hint use the "color" argument in your aesthetics from the previous plot) 
+
+```{r}
+# scatterplot here
+
+```
+
+
+# 2. The Danish Pink - is there an effect of language?
+
+Now it is time to investigate the effect of mother tongue! I have anonymized the data from last year for you. The dataset is on BB and is called df_2018.csv
+
+Run the t-test on the categories within and across, this time contrasting the two language categories.
+```{r}
+# load the data (and do subsets if you want)
+
+# t-test within
+
+
+# t-test across
+
+
+```
+Did you find a difference?
+
+```{r}
+# Here is a ready made visualization for you!
+
+ggplot(df_2018, aes(x=category, y=rt, fill=category)) + 
+  geom_bar(stat = "summary", fun.y = mean) +
+  geom_errorbar(stat = "summary", fun.data = mean_se, width = 0.2, position = position_dodge(width = 1))+
+  facet_wrap(~danish, labeller = label_both)+
+  labs(title = "The effect of language on reaction times",x="Categories by mother tongue", y = "mean rt")
+
+
+```
+
