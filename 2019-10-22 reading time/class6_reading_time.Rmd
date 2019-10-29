@@ -1,0 +1,96 @@
+---
+title: "Class 6"
+author: "Telma Peura"
+date: "2019 M10 19"
+output: html_document
+---
+
+# Reading Times Experiment - part 2
+### with acknowledgements to Kristian Tyl?n
+
+## preparing R: libraries etc
+```{r}
+library(pacman)
+p_load(tidyverse)
+
+knitr::opts_chunk$set(root.dir = '/2019-10-22 reading time')
+getwd()
+
+```
+
+# Which features (if any) affect reading time?
+
+In this exercise we will investigate whether different properties of words  affect word-by-word reading times. For this purpose we will use your logfiles from the reading experiment and the MRC Psycholinguistics Database (http://websites.psychology.uwa.edu.au/school/MRCDatabase/uwa_mrc.htm). 
+
+
+Make sure that you have downloaded the database (called "MRC_database.csv"") from Blackboard to your working directory. Also you should choose a logfile from the reading experiment that you want to work with.
+
+# Step 1: Preparing the dataframe
+
+## 1.1. Import the database into R, as well as your chosen logfile
+```{r}
+# read the files into R
+
+mrc_data <- read_csv("MRC_database.csv")
+logfile_data <- read_csv("logfile_1-kopi.csv")
+```
+
+## 1.2. Capitalize all the words in your logfile. 
+
+If you look at the MRC dataframe, all the words are capitalized. YOu should therefore do the same to your logfile. Check out the function toupper() to do that.
+
+NB! Make sure the word column is called "word" as the word column in the MRC dataframe. You can do it by replacing the old name: 
+colnames(your_df)[colnames(your_df)=="old name"] <- "word"
+
+```{r}
+# convert your words into uppercase
+
+toupper(logfile_data$Stimulus)
+
+# rename the capitalized column to "word"
+#colnames(toupper(logfile_data$Stimulus)[logfile_data$Stimulus == "Stimulus"] <- "word" 
+
+logfile_data$word <- toupper(logfile_data$Stimulus)
+logfile_data$word <- str_replace(logfile_data$word,"[.,]","")
+
+```
+
+## 1.3. Add word properties from the database to your reading experiment dataframe
+
+Now we are ready to get properties of the words in our text from the database. We do this by merging the two dataframes, the reding experiment logfile and the database using the word column as "key". This means that R will search the database for those words that are identical between the text and the database and add columns for these words to our dataframe. For this we use the function merge(data1, data2, by = "key column").
+
+```{r}
+# merge the dfs 
+df_merge <- merge(logfile_data, mrc_data, by = "word")
+
+```
+
+# Step 2: Exploring relations
+
+Now we can explore the relation between reading times and different aspects of words using the skills you've learned in EM1 (correlation and scatter plots). 
+
+Perform at least two exploratory tests between reading time and a selected variable from the database. 
+
+```{r}
+# check assumptions
+
+# transform variables if necessary
+
+# run correlation tests
+```
+
+
+# Step 3: Visualize with ggplot
+```{r}
+# try out different visualizations
+
+```
+
+
+In addition, try to compare length of words and word frequency. What do you find and why?
+
+```{r}
+
+```
+
+
