@@ -10,13 +10,13 @@ As always, we will begin by loading relevant packages, setting the working direc
 ```{r setup, include=FALSE}
 
 #Set working directory here if needed:
-setwd()
+#setwd()
 getwd()
 #opts_knit$set(root.dir = "~/your_wd") # if root directory has to be changed
 
 #Load packages here:
 library(pacman)
-pacman::p_load(tidyverse) # add necessary packages
+pacman::p_load(tidyverse, pastecs, WRS2) # add necessary packages
 
 #Load your data here
 owndata <- read.csv("logfile_colourtest_PernilleKJ.csv")
@@ -56,19 +56,18 @@ Make a scatterplot and a cor.test() of these variables and interpret the result.
 
 ```{r}
 #Insert scatterplot here:
-scat1 <- ggplot(df2, aes(df2$colour_distance, df2$rt))
-scat1 + geom_point()
+scat1 <- ggplot(df2, aes(df2$colour_distance, df2$rt)) + geom_point()
 scat1
 #Remove outliers (if any) here:
 #removing outliers by z-scores
 
 #RT_z <-(RT-meanRT())/(sd(RT))
 
-rt_z <- (df2$rt-mean(df2$rt))/sd(df2$rt)
-rt_z2 <- rt_z[rt_z >= 3]
-
+df2$rt_z <- (df2$rt-mean(df2$rt))/sd(df2$rt)
+df2 <- df2 %>% filter(df2$rt_z <= 3 | df2$rt_z <=-3)
 #insert Correlations test here:
 
+cor.test(df2$colour_distance, df2$rt)
 
 ```
 
@@ -79,11 +78,21 @@ Next compare the mean of the within and across categories using a t-test. Discus
 Tip: you can do two subsets by filtering your data, based on the categories "within" and "across". (i.e. your_subset <- filter(data, your_column == "subset_value")) Then you can run the t-test with those subsets.
 ```{r}
 # subset
+#Why??????
+df2_within <- df2 %>% filter(df2$category == "within")
+df2_across <- df2 %>% filter(df2$category == "across")
+
+within_mean <- mean(df2_within$rt)
+across_mean <- mean(df2_across$rt)
 
 # t-test here: 
-
+t.test(rt ~ category, data = df2)
+#t.test(rt ~ category, data = df2_within)
 
 # barplot for RT~category
+
+barplot <- ggplot(df2, aes(category, rt, fill = category)) + geom_bar(stat = "summary", fun.y = mean, width = 0.5)
+barplot + theme_minimal() + geom_errorbar(stat = "summary", fun.data = mean_se) 
 
   # You can use geom_bar(stat = "summary", y.fun = mean). What does this do with your data?
 
@@ -95,6 +104,8 @@ By now, you have investigated the relationship between color distance and reacti
 ```{r}
 # scatterplot here
 
+scat2 <- ggplot(df2, aes(colour_distance, rt, fill = category))
+scat2 + geom_point() + labs(x = "Colour distance", y = "Reaction time", fill = "Category") + geom_smooth(method = "lm", colour = "red")
 ```
 
 
@@ -105,9 +116,14 @@ Now it is time to investigate the effect of mother tongue! I have anonymized the
 Run the t-test on the categories within and across, this time contrasting the two language categories.
 ```{r}
 # load the data (and do subsets if you want)
+df_2018 <- read_csv("df_2018.csv")
+
+df_2018_within <- df_2018 %>% filter(category == "within")
+df_2018_across <- df_2018 %>% filter(category == "across")
 
 # t-test within
-
+t.test(rt ~ category, data = df_2018)
+t.test(rt ~ data = df_2018_within)
 
 # t-test across
 
