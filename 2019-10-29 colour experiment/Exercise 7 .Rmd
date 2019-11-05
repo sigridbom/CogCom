@@ -78,7 +78,6 @@ Next compare the mean of the within and across categories using a t-test. Discus
 Tip: you can do two subsets by filtering your data, based on the categories "within" and "across". (i.e. your_subset <- filter(data, your_column == "subset_value")) Then you can run the t-test with those subsets.
 ```{r}
 # subset
-#Why??????
 df2_within <- df2 %>% filter(df2$category == "within")
 df2_across <- df2 %>% filter(df2$category == "across")
 
@@ -87,7 +86,7 @@ across_mean <- mean(df2_across$rt)
 
 # t-test here: 
 t.test(rt ~ category, data = df2)
-#t.test(rt ~ category, data = df2_within)
+t.test(df2_within$rt, df2_across$rt)
 
 # barplot for RT~category
 
