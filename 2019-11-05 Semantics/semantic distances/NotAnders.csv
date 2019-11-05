@@ -1,0 +1,45 @@
+,subject,age,gender,word,word_nr,time,category
+0,NotAnders,22,m,bread,1,1.632789700000103,foods
+1,NotAnders,22,m,butter,2,1.5377226999999039,foods
+2,NotAnders,22,m,cream,3,1.633573399999932,foods
+3,NotAnders,22,m,ice cream,4,2.3009328999996796,foods
+4,NotAnders,22,m,cardemomme,5,4.582971700000144,foods
+5,NotAnders,22,m,coriander,6,3.1757339999999203,foods
+6,NotAnders,22,m,rice,7,1.5426179999999476,foods
+7,NotAnders,22,m,tomato,8,2.4256650000002082,foods
+8,NotAnders,22,m,cucumber,9,1.8583042000000205,foods
+9,NotAnders,22,m,squash,10,2.0768613999998706,foods
+10,NotAnders,22,m,orange,11,2.1168385000000853,foods
+11,NotAnders,22,m,banana,12,1.624062899999899,foods
+12,NotAnders,22,m,kiwi,13,1.890251199999966,foods
+13,NotAnders,22,m,oats,14,1.8422382999997353,foods
+14,NotAnders,22,m,vanilla sugar,15,4.568111200000203,foods
+15,NotAnders,22,m,rye bread,16,3.5304485999999997,foods
+16,NotAnders,22,m,toast bread,17,2.106236899999658,foods
+17,NotAnders,22,m,tuna,18,1.0728416000001744,foods
+18,NotAnders,22,m,capers,19,2.7437823999998727,foods
+19,NotAnders,22,m,sundried tomatoes,20,4.98056299999962,foods
+20,NotAnders,22,m,pumpkin,21,1.2575277000000824,foods
+21,NotAnders,22,m,potatoes,22,2.8896613000001707,foods
+22,NotAnders,22,m,carrot,23,2.040560899999946,foods
+23,NotAnders,22,m,cellery,24,3.4779358000000684,foods
+24,NotAnders,22,m,kale,25,1.731006100000286,foods
+25,NotAnders,22,m,chocolate,26,3.5306878000001234,foods
+26,NotAnders,22,m,chips,27,1.3454427000001488,foods
+27,NotAnders,22,m,peanuts,28,1.574867599999834,foods
+28,NotAnders,22,m,raisin,29,3.9475359000002754,foods
+29,NotAnders,22,m,dates,30,1.927382899999884,foods
+30,NotAnders,22,m,figs,31,1.18876709999995,foods
+31,NotAnders,22,m,almonds,32,2.362765700000182,foods
+32,NotAnders,22,m,hazelnut,33,2.579333900000165,foods
+33,NotAnders,22,m,cake topping,34,3.127063299999918,foods
+34,NotAnders,22,m,yoghurt,35,4.484084400000029,foods
+35,NotAnders,22,m,drinking yoghurt,36,4.574572699999862,foods
+36,NotAnders,22,m,egg,37,1.8416191999999683,foods
+37,NotAnders,22,m,corn,38,3.6186469000003854,foods
+38,NotAnders,22,m,pea,39,1.7091629999999896,foods
+39,NotAnders,22,m,coconut milk,40,6.451016900000013,foods
+40,NotAnders,22,m,pepper,41,3.3781543000000056,foods
+41,NotAnders,22,m,salt,42,1.7131223000001228,foods
+42,NotAnders,22,m,apple,43,6.0122535000000425,foods
+43,NotAnders,22,m,pear,44,1.4377837000001819,foods

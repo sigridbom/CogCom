@@ -1,0 +1,41 @@
+,subject,age,gender,word,word_nr,time,category
+0,Jonathan,20,m,cat,1,1.5851223999925423,animals
+1,Jonathan,20,m,dog,2,1.2869005000102334,animals
+2,Jonathan,20,m,mouse,3,2.0264978000195697,animals
+3,Jonathan,20,m,rat,4,1.6277130999951623,animals
+4,Jonathan,20,m,rabbit,5,2.3585834999976214,animals
+5,Jonathan,20,m,bunny,6,1.5243283999734558,animals
+6,Jonathan,20,m,hare,7,2.112181300006341,animals
+7,Jonathan,20,m,guineypig,8,3.638045300001977,animals
+8,Jonathan,20,m,hamster,9,3.0903327999985777,animals
+9,Jonathan,20,m,dwarf hamster,10,3.8679030999774113,animals
+10,Jonathan,20,m,rhino,11,2.511317800002871,animals
+11,Jonathan,20,m,lion,12,1.9963449999922886,animals
+12,Jonathan,20,m,tiger,13,1.4457889999903273,animals
+13,Jonathan,20,m,jaguar,14,1.9012876999913715,animals
+14,Jonathan,20,m,lynx,15,1.7663482999778353,animals
+15,Jonathan,20,m,elephant,16,3.9208969000028446,animals
+16,Jonathan,20,m,hippo,17,2.4778795999882277,animals
+17,Jonathan,20,m,bird,18,3.3624595000001136,animals
+18,Jonathan,20,m,robin,19,2.0749175999953877,animals
+19,Jonathan,20,m,pinguin,20,3.3223707000142895,animals
+20,Jonathan,20,m,polarbear,21,3.2283993999881204,animals
+21,Jonathan,20,m,brown bear,22,2.5640461999864783,animals
+22,Jonathan,20,m,moose,23,1.8681936000066344,animals
+23,Jonathan,20,m,elk,24,2.0241934999939986,animals
+24,Jonathan,20,m,deer,25,1.478356600011466,animals
+25,Jonathan,20,m,squirrel,26,8.747456199984299,animals
+26,Jonathan,20,m,drawf mouse,27,4.012259300012374,animals
+27,Jonathan,20,m,chihuaha,28,3.254016099992441,animals
+28,Jonathan,20,m,fish,29,8.558193800010486,animals
+29,Jonathan,20,m,salmon,30,2.4778278000012506,animals
+30,Jonathan,20,m,tuna,31,2.4500721999793313,animals
+31,Jonathan,20,m,great white shark,32,3.66741710001952,animals
+32,Jonathan,20,m,hammer shark,33,3.4538011999975424,animals
+33,Jonathan,20,m,ordinary shark,34,3.5394070000038482,animals
+34,Jonathan,20,m,blue whale,35,3.042779100011103,animals
+35,Jonathan,20,m,humpback whale,36,4.706157200009329,animals
+36,Jonathan,20,m,clown fish,37,3.9811191000044346,animals
+37,Jonathan,20,m,unicorn,38,2.6226792999950703,animals
+38,Jonathan,20,m,horse,39,1.9123737999761943,animals
+39,Jonathan,20,m,narwhale,40,3.729765399999451,animals

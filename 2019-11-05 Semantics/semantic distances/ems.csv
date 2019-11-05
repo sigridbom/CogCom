@@ -1,0 +1,25 @@
+,subject,age,gender,word,word_nr,time,category
+0,ems,22,f,bread,1,2.197460641997168,foods
+1,ems,22,f,chopsticks,2,4.334792873996776,foods
+2,ems,22,f,pho,3,4.393065404001391,foods
+3,ems,22,f,springrolls,4,2.721390500002599,foods
+4,ems,22,f,pad thai,5,4.8435530200004,foods
+5,ems,22,f,curry,6,9.445026909997978,foods
+6,ems,22,f,daal,7,2.8074050590003026,foods
+7,ems,22,f,vegetarian,8,6.100939723997726,foods
+8,ems,22,f,meat,9,1.417136111005675,foods
+9,ems,22,f,dates,10,3.4975425790034933,foods
+10,ems,22,f,pesto,11,6.667355568999483,foods
+11,ems,22,f,tomatoes,12,6.161066360997211,foods
+12,ems,22,f,sundried tomatoes,13,5.153999713998928,foods
+13,ems,22,f,mexican food,14,11.97903577300167,foods
+14,ems,22,f,avocado,15,3.131238148002012,foods
+15,ems,22,f,corn,16,3.475153159997717,foods
+16,ems,22,f,wheat,17,7.589355124000576,foods
+17,ems,22,f,tortillas,18,8.093259125998884,foods
+18,ems,22,f,crepes,19,7.946143640001537,foods
+19,ems,22,f,nutella,20,4.4099823080032365,foods
+20,ems,22,f,sugar,21,1.526319714001147,foods
+21,ems,22,f,nuts,22,2.2103499840013683,foods
+22,ems,22,f,icecream,23,4.417434054004843,foods
+23,ems,22,f,brownie,24,2.3222272189959767,foods

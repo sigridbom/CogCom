@@ -1,0 +1,152 @@
+---
+title: "Semantic distance experiment"
+author: "Telma"
+date: "2019 M11 4"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(pacman)
+#install.packages("LSAfun")
+p_load(tidyverse, stringr, LSAfun, pastecs)
+
+# working directory if needed
+getwd()
+#knitr::opts_knit$set(root.dir = "")
+```
+
+# Calculate the semantic distances
+
+code inspired by  https://link.springer.com/content/pdf/10.3758/s13428-014-0529-0.pdf
+
+1.Download preporcessed word vectors from http://www.lingexp.uni-tuebingen.de/z2/LSAspaces/
+  - the right one is called "EN_100k_lsa"
+  - save it to the same folder with the other materials for this class
+```{r}
+# load the semantic space
+load("EN_100k_lsa.rda")
+
+```
+
+
+# data
+```{r}
+
+# helper function to read data
+read_data <- function (filename) {
+  datanew <- read.csv(filename)
+  datanew <- datanew %>%
+  mutate(lagwords = as.character(lag(word))) } # replicate the words with a lag of 1
+
+#Read the files in
+temp = list.files(path = "/semantic distances",full.names = T, pattern="*.csv")
+
+# apply the function
+alldata <- map_df(temp, read_data)
+
+mydata <- read_data("K.csv")
+
+
+
+# check that words are in characters
+mydata$word <- as.character(mydata$word)
+
+class(mydata$word)
+```
+
+# calculate semantic distances
+
+```{r}
+
+for (row_nr in 1:nrow(mydata)){ #loop through all the rows in the df 
+  S_distance = costring(mydata$word[row_nr], 
+                      mydata$lagwords[row_nr],
+                      tvectors = EN_100k_lsa)
+                  #apply the function to the two different columns 
+  mydata$distance[row_nr] = S_distance #save the answer to the column 
+  mydata$distance[is.na(adf$distance)] <- 0 # replace NAs by zero
+  mydata$distance[alldata$word_nr==1] <- 0
+  
+}
+
+# calculate the cumulative sum
+mydata$cumulative <- cumsum(mydata$distance) # do this for your own data
+
+# this for the data from all of you
+alldata$cumulative <- ave(alldata$distance, alldata$subject, FUN=cumsum)
+
+
+```
+
+# Visualize your own data
+```{r}
+# plot the foraging of your own data
+distance_plot = ggplot(mydata, aes(word_nr, distance, label = word,  color = distance)) + 
+  geom_point() + 
+  geom_line() +
+  geom_text(check_overlap = T, position =  position_jitter(height = 2))+
+  ggtitle("Lineplot of semantic distance (trial by trial)")
+
+# show the plot
+distance_plot
+```
+Interpret the plot:
+What do small and large jumps on y-axis mean?
+
+
+With your own data frame make a histogram as well. You can try different values of "binwidth" to see if you can find an interesting/pretty pattern.
+```{r}
+mydata %>% 
+  filter(distance != 0) %>% # filter out the misses
+  ggplot(aes(distance, color = distance)) +
+  geom_histogram(binwidth = 0.05, aes(fill = ..count..)) +
+  scale_fill_gradient("count", low="orange", high="purple") +
+  labs(x = "Distance", 
+       y = "Count", 
+       title = "Semantic distance distribution") +
+  scale_x_continuous(breaks = seq(0,1,0.1))
+
+```
+Interpret the plot: 
+How is the semantic distance between words distributed?
+- binwidth = "intervals"
+- are there a lot of closely related words?
+
+
+# group analysis
+```{r}
+# find common words
+
+alldata %>% 
+  # filter by chosen category
+  filter(category == "animals") %>% 
+  group_by(word) %>% 
+  # count words
+  tally %>% 
+  filter(n > 5 & n <50) %>% arrange(n) %>% # you can try out different thresholds
+  # plot
+  ggplot(aes(word, n, fill = n)) +
+  geom_col()
+
+```
+What do you think of category memberships / prototypes?
+
+
+Lastly, make a correlation analysis between time and distance. Make a scatterplot as well to help you interpet the correlation.
+You can reuse code from previous exercises
+```{r}
+# make a subset where you filter out zeros
+
+# normality check
+
+
+# correlation test
+
+#Scatterplot of semantic distance vs. time
+  ## at a linear model
+
+```
+
+
