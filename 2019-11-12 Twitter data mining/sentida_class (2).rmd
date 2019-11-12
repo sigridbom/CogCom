@@ -1,0 +1,91 @@
+---
+title: "Sentida_class"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r}
+#Loading this will enable you to work with æøå - VERY IMPORTANT
+Sys.setlocale(category = "LC_ALL", locale = "UTF-8")
+
+
+#load packages and data
+library(pacman)
+p_load(ggplot2,stringr,dplyr,tidyverse, remotes) #add your favorite packages
+
+fv_all <- read_csv("fv_all.csv")
+
+#look at the data, check if classes make sense, e.g. $text should be character
+head(fv_all$text, 10)
+colnames(fv_all)
+class(fv_all$text)
+
+#Load sentida and apply it to one of the tweets, try both total and mean
+remotes::install_github("Guscode/Sentida", force = T)
+library(Sentida)
+?sentida
+
+sentida(frederiksen$X1 == 47)
+
+#select a leader from one of the Danish political parties (https://www.dr.dk/nyheder/politik/resultater/folketingsvalg). From fv_all make a new dataframe including only tweets mentioning this person. 
+#E.g.: paludan <- filter(fv_all, str_detect(fvhash$text, "Paludan") == T)
+
+frederiksen <- filter(fv_all, str_detect(fv_all$text, "Frederiksen") == T)
+
+### You might want to do some preprocessing of the text here. str_remove_all() is cute, tolower() is cool, str_replace_all() is sexy. Make the tweets lowercase and remove all numbers (Major hint alert: str_remove_all(paludan$text,[:digit:]))
+
+frederiksen$text <- str_remove_all(frederiksen$text,"[:digit:]")
+frederiksen$text <- tolower(frederiksen$text)
+
+#Make a new row in the dataframe with sentiment score of every tweet mentioning this person (e.g use lapply() or make a loop if you dare)
+?lapply
+
+frederiksen$sentiment <- lapply(frederiksen$text, sentida)
+
+mean(frederiksen$sentiment)
+class(frederiksen$sentiment)
+frederiksen$sentiment <- as.numeric(frederiksen$sentiment)
+
+#mean of frederiksen sentiment 1.6
+
+```
+
+
+```{r}
+#what is his/her mean sentiment score?
+###Bonus: What is their mean sentiment score per day? !WARNING ADVANCED PLEASE SKIP! lifesaver: aggregate()
+
+
+#Compare your political leader to one from another party
+
+henriksen <- filter(fv_all, str_detect(fv_all$text, "Henriksen") == T)
+
+#henriksen$text <- fv_all %>% mutate(str_remove_all(henriksen$text, "[:digit:]")) %>% mutate(tolower(henriksen$text))
+
+henriksen$text <- str_remove_all(henriksen$text, "[:digit:]")
+henriksen$text <- tolower(henriksen$text)
+
+henriksen$sentiment <- lapply(henriksen$text, sentida)
+
+class(henriksen$sentiment)
+henriksen$sentiment <- as.numeric(henriksen$sentiment)
+mean(henriksen$sentiment)
+
+#henriksen mean -0,04
+
+#Did the parties who won less mandates than the last election have a worse sentiment score than the rest?
+
+#yes
+
+
+#Are there any correlations between sentiment score and amount of favourites/retweets?
+
+cor.test(henriksen$retweetCount, henriksen$sentiment, method = "spearman")
+
+
+```
+
